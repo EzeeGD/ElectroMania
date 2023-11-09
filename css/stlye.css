@@ -1,0 +1,192 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+}
+
+body {
+    font-weight: 100;
+    font-family: "sen", sans-serif;
+    background-image: url(https://static.vecteezy.com/system/resources/previews/002/429/474/original/electronic-circuit-design-on-a-dark-blue-background-vector.jpg);
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 100vh;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    background-image: url(https://static.vecteezy.com/system/resources/previews/006/950/496/non_2x/abstract-background-with-technology-electronic-motherboard-illustration-vector.jpg);
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    border-bottom: 3px solid rgb(245, 0, 0);
+}
+
+.titulo {
+    width: 20cm;
+    padding: 20px;
+}
+
+.titulo h1 {
+    padding-bottom: 15px;
+    color: aliceblue;
+}
+
+.titulo h3 {
+    margin-left: 35px;
+    color: #e73737;
+}
+
+.menu ul{
+    display: flex;
+    padding: 25px;
+}
+
+.menu ul li {
+    padding: 10px;
+    color: #e64040;
+    font-size: 19px;
+}
+
+
+
+
+.menu ul li a {
+    color: aliceblue;
+    padding: 15px;
+}
+
+/* elemetos del footer */
+footer {
+    display: flex;
+    text-align: center;
+    justify-content: space-evenly;
+    color: aliceblue;
+    padding-top: 35rem;
+    padding-bottom: 70px;
+    font-size: 23px;
+}
+/* Estilos de contacto */
+.contacto ul li {
+    padding: 15px;
+}
+
+.contacto ul li a {
+    color: aliceblue;
+}
+
+/* Estilos de Redes */
+.redes ul li {
+    padding: 20px;
+}
+
+.redes ul li a {
+    color: aliceblue;
+    font-size: 35px;
+}
+
+/* Estilos de politica */
+.derechos a {
+    color: aliceblue;
+}
+
+.derechos h5 {
+    font-size: small;
+    padding-top: 15px;
+}
+
+/* Estilos CSS para la ventana emergente */
+#sesion {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+}
+
+#sesion-content h2 {
+    padding-bottom: 8px;
+    color: black;
+
+}
+
+#sesion-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.input-sesion {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    margin: 5px;
+    width: 15rem;
+}
+
+.input-sesion input {
+    margin: 10px;
+    padding: 5px;
+}
+
+
+#close-sesion {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+#info {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+}
+
+#info h4 {
+    font-size: 45px;
+    color: black;
+}
+
+#info h5{
+    font-size: 20px;
+    color: black;
+}
+
+
+#info-content {
+    position: absolute;
+    height: 27rem;
+    width: 45rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+
+}
+
+
+
+#close-info {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
