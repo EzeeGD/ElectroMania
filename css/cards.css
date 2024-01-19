@@ -1,17 +1,3 @@
-.button-delete {
-    background: darkred !important;
-}
-
-.button-small {
-    font-size: .8rem;
-    height: 2.8rem;
-    line-height: 2.8rem;
-    padding: 0 1.5rem;
-  }
-
-.ocultar {
-    display: none;
-}
 
 .container {
     gap: 30px;
@@ -45,7 +31,7 @@
     width: 69%;
 }
 
-.card .card-name {
+.card-name {
     text-align: center;
     font-size: 24px;
     font-weight: 700;
@@ -61,8 +47,8 @@
     margin: 0px 10px;
 }
 
-.card .card-price {
-    color: rgb(11, 130, 235);
+.card-price {
+    color: rgb(0, 0, 0);
     text-align: center;
     font-size: 35px;
     font-weight: 500;
@@ -82,12 +68,6 @@
     border-radius: 10px;
     margin-top: 15px;
     font-size: 20px;
-    outline: 1px solid rgba(34, 106, 241, 0.842) !important;
-}
-
-.card .card-{
-    margin-top: 10px;
-    font-size: 20px !important;
 }
 
 .card .card-button .disabled {

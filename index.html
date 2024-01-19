@@ -4,10 +4,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="https://kit.fontawesome.com/a2dd6045c4.js" crossorigin="anonymus"></script>
+        <script src="https://sdk.mercadopago.com/js/v2"></script>
         <link rel="stylesheet" href="css/stlye.css">
         <link rel="stylesheet" href="css/cards.css">
+        <link rel="stylesheet" href="css/carrito.css">
         <title>ElectroMania</title>
-        <script src="js/carrito.js"></script>
+        <script defer src="js/carrito.js"></script>
         <script defer src="js/index.js"></script>
     </head>
 
@@ -18,9 +20,10 @@
                 <h3>Todos tus Electrodomesticos al alcance de un click</h3>
             </div>
             <div class="menu">
-                <ul>
+                <div class="fa-solid fa-chevron-right" id="menu_responsive"></div>
+                <ul id="menu-responsive">
                     <li>
-                        <i class="fa-solid fa-circle-user"></i><a href="#" id="open-sesion">Inicio</a>
+                        <i class="fa-solid fa-circle-user fa-xl"></i><a href="#" id="open-sesion">Inicio</a>
                         <div id="sesion">
                             <div id="sesion-content">
                                 <span id="close-sesion" onclick="closeSesion()">&#10006;</span>
@@ -29,15 +32,54 @@
                                 <form class="input-sesion">
                                     <input type="text" placeholder="Usuario">
                                     <input type="password" placeholder="Contraseña">
-                                    <button type="submit">Iniciar Sesión</button>
+                                <div class="botones-sesion">
+                                    <button  onclick="mostrarAlertaSesion()">Iniciar Sesión</button>
+                                </div>
                                 </form>
                             </div>
                         </div>
                     </li>
                     <li>
+                        <i class="fa-solid fa-user-plus"></i><a href="#" id="open-register">Registrarse</a>
+                        <div id="register">
+                        <div id="register-content">
+                            <span id="close-register" onclick="closeRegister()">&#10006;</span>
+                            <!-- Formulario de registro -->
+                            <h2>Registrarse</h2>
+                            <form class="input-register">
+                                <input type="text" placeholder="Usuario">
+                                <input type="password" placeholder="Contraseña">
+                                <input type="email" placeholder="Mail">
+                                <div class="boton-register">
+                                    <button id="btn-sumbit" onclick="mostrarAlertaRegister()">Registrarse</button>
+                                </div>
+                            </form>
+                        </div>
+                        </div>
+                    </li>
+                    <li>
                         <i class="fa-sharp fa-solid fa-cart-shopping"></i><a href="#" id="open-carrito">Carrito</a>
-                        <!-- Productos seleccionados -->
                         <div id="carrito">
+                            <div class="carrito-content">
+                                <span id="close-carrito" onclick="closeCarrito()">&#10006;</span>
+                                <h3>Carrito</h3>
+                                <div class="carrito-list">
+                                    <!-- productos seleccionados -->
+                                </div>
+                                <div class="content-total">
+                                    <table>
+                                        <tr>
+                                            <td>Subtotal<span class="subtotal"></span></td>
+                                            <td>Descuentos<span class="descuentos"></span></td>
+                                            <td>Envio<span class="envio"></span></td>
+                                            <td>Total<span class="total"></span></td>
+                                        </tr>
+                                    </table>
+                                <div class="btn-finish">
+                                    <button class="pagar" onclick="alertaPagos()">pagar</button>
+                                    <button class="vaciar-carrito">Vaciar carrito</button>  
+                                </div>
+                            </div>
                         </div>
                     </li>
                     <li>
@@ -62,6 +104,8 @@
                 </ul>
             </div>
         </header>
+        <!-- Notificacion de producto agregado -->
+        <div class="notificacion" id="notificacion">Producto agregado al carrito</div>
         <section class="container" id="cardContainer">
                 <!-- Productos -->
                 <div id="errorCard">
@@ -75,10 +119,10 @@
                 <h4>Contacto</h4>
                 <ul>
                     <li>
-                        <a class="social-link href=" #"><i class="fab fa-whatsapp"></i></a> 11-59721137
+                        <a class="social-link href=" #"><i class="fab fa-whatsapp"></i></button> 11-59721137
                     </li>
                     <li>
-                        <a href="https://www.gmail.com">ElectroMania@gmail.com</a>
+                        <a href="https://www.gmail.com" target="_blank">ElectroMania@gmail.com</a>
                     </li>
                 </ul>
             </div>
@@ -101,4 +145,5 @@
                 <h5>Todos los derechos reservados. Ⓡ</h5>
             </div>
         </footer>
+    </body>
 </html>
