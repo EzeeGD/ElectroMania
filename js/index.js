@@ -2,6 +2,36 @@ const cardContainer = document.getElementById("cardContainer")
 const URL_Productos = './js/products.json'
 const storeProducts = []
 
+// ! Event listeners
+document.getElementById('open-sesion').addEventListener('click', () => toggleSession(true));
+document.getElementById('close-sesion').addEventListener('click', () => toggleCarrito(false));
+
+document.getElementById('open-info').addEventListener('click', () => toggleInfo(true));
+document.getElementById('close-info').addEventListener('click', () => toggleInfo(false));
+
+document.getElementById('open-carrito').addEventListener('click', () => toggleCarrito(true));
+document.getElementById('close-carrito').addEventListener('click', () => toggleCarrito(false));
+
+document.getElementById('open-register').addEventListener('click', () => toggleRegister(true));
+document.getElementById('close-register').addEventListener('click', () => toggleRegister(false));
+
+function toggleSession(state) {
+    session.style.display = state ? 'block' : 'none';
+}
+
+function toggleInfo(state) {
+    info.style.display = state ? 'block' : 'none';
+}
+
+function toggleCarrito(state) {
+    carrito.style.display = state ? 'block' : 'none';
+}
+
+function toggleRegister(state) {
+    register.style.display = state ? 'block' : 'none';
+}
+
+
 function createCardHTML(p) {
     let template = `
     <div class="card">
@@ -67,43 +97,6 @@ const obtenerProductos = () => {
     }
 
 obtenerProductos()
-
-// Función para abrir la ventana emergente de sesion
-document.getElementById('open-sesion').addEventListener('click', function() {
-    document.getElementById('sesion').style.display = 'block';
-})
-
-function closeSesion() {
-    document.getElementById('sesion').style.display = 'none';
-}
-
-// Funcion para abrir ventana emergente de info
-document.getElementById('open-info').addEventListener('click', function(){
-    document.getElementById('info').style.display = 'block';
-})
-
-function closeInfo() {
-    document.getElementById('info').style.display = 'none';
-}
-
-// Funcion para abrir carrito
-document.getElementById('open-carrito').addEventListener('click', function() {
-    document.getElementById('carrito').style.display = 'flex';
-})
-
-function closeCarrito() {
-    document.getElementById('carrito').style.display = 'none';
-}
-
-// Funcion para abrir registro
-document.getElementById('open-register').addEventListener('click', function(){
-    document.getElementById('register').style.display = 'block'
-})
-
-function closeRegister() {
-    document.getElementById('register').style.display = 'none';
-}
-
 
 document.getElementById('menu_responsive').addEventListener('click', function(){
     document.getElementById('menu-responsive').style.display = 'flex'
