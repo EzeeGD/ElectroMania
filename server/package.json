@@ -1,0 +1,23 @@
+{
+  "name": "electromania-server",
+  "version": "1.6.0",
+  "description": "Servidor API backend de Electro-Mania",
+  "main": "server.js",
+  "type": "commonjs",
+
+  "scripts": {
+    "start": "nodemon server.js",
+    "debug": "nodemon --inspect=5005 server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mercadopago": "^2.0.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
