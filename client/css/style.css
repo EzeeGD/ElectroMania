@@ -25,7 +25,7 @@ header {
     background-size: cover;
     background-position: center;
     width: 100%;
-    border-bottom: 1px solid rgb(245, 0, 0);
+    border-bottom: 3px solid rgb(245, 0, 0);
 }
 
 .titulo {
@@ -60,7 +60,6 @@ header {
 .menu ul li a {
     color: aliceblue;
     padding: 15px;
-    text-decoration: none;
 }
 
 /* elemetos del footer */
@@ -147,7 +146,7 @@ footer {
     border-radius: 5px;
 }
 
-.botones-sesion button {
+.boton-sesion button {
     margin: 10px;
     padding: 5px;
     outline: none;
@@ -162,7 +161,6 @@ footer {
     right: 10px;
     cursor: pointer;
 }
-
 /* registro */
 
 #register {
@@ -360,32 +358,4 @@ footer {
     height: 35px;
     width: 80px;
     margin: 10px;
-}
-
-@media screen and (max-width: 960px){
-    header{
-        height: 130px;
-        font-size: 14px;
-    }
-
-    .menu ul{
-        display: none;
-        flex-direction: column;
-        justify-content: space-between;
-        background: #086a97;
-        position: relative;
-        float: right;
-        width: 221px;
-        height: 300px;
-        padding: 15px 15px;
-        border: 1px solid red;
-        border-radius: 5%;
-    }
-
-    #menu_responsive{
-        font-size: 40px;
-        padding: 30px 20px;
-        float: right;
-        transition: 90%;
-     }
 }

@@ -147,5 +147,9 @@ function initializeCart() {
     updateCartList();
 }
 
+function showAlert() {
+    alert("Test concluido!")
+}
+
 // Initialize cart on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', initializeCart);

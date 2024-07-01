@@ -1,16 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/a2dd6045c4.js" crossorigin="anonymus"></script>
     <script src="https://sdk.mercadopago.com/js/v2"></script>
-    <link rel="stylesheet" href="css/stlye.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/cards.css">
     <link rel="stylesheet" href="css/carrito.css">
-    <title>Electro-1.0</title>
-    <script defer src="js/carrito.js"></script>
+    <title>ElectroMania</title>
     <script defer src="js/index.js"></script>
+    <script defer src="js/scripts.js"></script>
+    <script defer src="js/carrito.js"></script>
 </head>
 <body>
     <header>
@@ -19,21 +21,20 @@
             <h3>Todos tus Electrodomesticos al alcance de un click</h3>
         </div>
         <div class="menu">
-            <div class="fa-solid fa-chevron-right" id="menu_responsive"></div>
-            <ul id="menu-responsive">
+            <ul>
                 <li>
-                    <i class="fa-solid fa-circle-user fa-xl"></i>
+                    <i class="fa-solid fa-circle-user fa-lg"></i>
                     <a href="#" id="open-sesion">Inicio</a>
                     <div id="sesion">
                         <div id="sesion-content">
-                            <span id="close-sesion" onclick="closeSesion()">&#10006;</span>
+                            <span id="close-sesion" onclick="toggleSession(false)">&#10006;</span>
                             <!--Formulario de sesion-->
                             <h2>Inicio de Sesión</h2>
                             <form class="input-sesion">
-                                <input type="text" placeholder="Usuario">
-                                <input type="password" placeholder="Contraseña">
-                                <div class="botones-sesion">
-                                    <button onclick="mostrarAlertaSesion()">Iniciar Sesión</button>
+                                <input name="user_input" type="text" placeholder="Usuario" autocomplete="username">
+                                <input name="password_input" type="password" placeholder="Contraseña" autocomplete="current-password">
+                                <div class="boton-sesion">
+                                    <button id="btn-login" type="submit">Iniciar Sesión</button>
                                 </div>
                             </form>
                         </div>
@@ -44,15 +45,15 @@
                     <a href="#" id="open-register">Registrarse</a>
                     <div id="register">
                         <div id="register-content">
-                            <span id="close-register" onclick="closeRegister()">&#10006;</span>
+                            <span id="close-register" onclick="toggleRegister(false)">&#10006;</span>
                             <!-- Formulario de registro -->
                             <h2>Registrarse</h2>
                             <form class="input-register">
-                                <input type="text" placeholder="Usuario">
-                                <input type="password" placeholder="Contraseña">
-                                <input type="email" placeholder="Mail">
+                                <input name="firstname" type="text" placeholder="Nombre">
+                                <input name="surname" type="text" placeholder="Apellido">
+                                <input name="email" type="email" placeholder="Mail" autocomplete="email">
                                 <div class="boton-register">
-                                    <button id="btn-sumbit" onclick="mostrarAlertaRegister()">Registrarse</button>
+                                    <button id="btn-register" onclick="showAlert()">Registrarse</button>
                                 </div>
                             </form>
                         </div>
@@ -63,7 +64,7 @@
                     <a href="#" id="open-carrito">Carrito</a>
                     <div id="carrito">
                         <div class="carrito-content">
-                            <span id="close-carrito" onclick="closeCarrito()">&#10006;</span>
+                            <span id="close-carrito" onclick="toggleCarrito(false)">&#10006;</span>
                             <h3>Carrito</h3>
                             <div class="carrito-list">
                                 <!-- productos seleccionados -->
@@ -71,18 +72,18 @@
                             <div class="content-total">
                                 <table>
                                     <tr>
-                                        <td>Subtotal <span class="subtotal"></span>
+                                        <td>Subtotal <span class="subtotal" id="cart-total"></span>
                                         </td>
                                         <td>Descuentos <span class="descuentos"></span>
                                         </td>
                                         <td>Envio <span class="envio"></span>
                                         </td>
-                                        <td>Total <span class="total"></span>
+                                        <td>Total <span class="total" id="cart-total"></span>
                                         </td>
                                     </tr>
                                 </table>
-                                <div class="btn-finish">
-                                    <button class="pagar" onclick="alertaPagos()">pagar</button>
+                                <div class="btn-finish" id="wallet_container">
+                                    <button class="pagar" id="checkout-btn">Ir al Pago</button>
                                     <button class="vaciar-carrito">Vaciar carrito</button>
                                 </div>
                             </div>
@@ -97,7 +98,7 @@
                     <a href="#" id="open-info">Info</a>
                     <div id="info">
                         <div id="info-content">
-                            <span id="close-info" onclick="closeInfo()">&#10006;</span>
+                            <span id="close-info" onclick="toggleInfo(false)">&#10006;</span>
                             <h4>Quienes somos?</h4>
                             <h5>Somos una empresa líder en la industria de electrodomésticos a nivel mundial. Nuestra especialidad es brindar a nuestros clientes una amplia gama de productos de alta calidad a precios inigualables. Nos enorgullece ofrecer envíos a destinos en todo el mundo, lo que significa que puedes encontrar los productos que buscas sin importar dónde te encuentres. En lo que destacamos es en nuestra eficiencia y compromiso con nuestros clientes. Nos esforzamos al máximo para asegurar que tus pedidos sean entregados en el menor tiempo posible. Además, consideramos la lealtad y la satisfacción del cliente como nuestros valores fundamentales, y siempre trabajamos incansablemente para superar sus expectativas. Confía en nosotros para satisfacer tus necesidades de electrodomésticos, y experimenta la diferencia de elegir a una empresa dedicada a brindar productos de calidad, servicio excepcional y entrega rápida en todo el mundo. </h5>
                         </div>
@@ -123,7 +124,7 @@
                 <li>
                     <a class="social-link href=" #">
                         <i class="fab fa-whatsapp"></i>
-                        </button> 11-59721137
+                    </a> 11-59721137
                 </li>
                 <li>
                     <a href="https://www.gmail.com" target="_blank">ElectroMania@gmail.com</a>
