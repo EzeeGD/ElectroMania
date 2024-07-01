@@ -1,9 +1,13 @@
 // ! Dependencies
-const fs = require('fs')
-const cors = require('cors');
-const path = require('path');
-const express = require('express');
-const { MercadoPagoConfig, Preference } = require('mercadopago');
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import express from 'express';
+
+import path from 'path';
+import fs from 'fs';
+
+import { MercadoPagoConfig, Preference } from 'mercadopago';
 
 // * Constants
 const PRODUCTS_PATH = './data/products.json';
