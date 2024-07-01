@@ -1,6 +1,12 @@
-const cardContainer = document.getElementById("cardContainer")
-const URL_Productos = './js/products.json'
-const storeProducts = []
+let storeProducts = [];
+
+const cardContainer = document.getElementById("cardContainer");
+
+const errorCard = document.getElementById('errorCard');
+const session = document.getElementById('sesion');
+const info = document.getElementById('info');
+const carrito = document.getElementById('carrito');
+const register = document.getElementById('register');
 
 // ! Event listeners
 document.getElementById('open-sesion').addEventListener('click', () => toggleSession(true));
@@ -31,9 +37,8 @@ function toggleRegister(state) {
     register.style.display = state ? 'block' : 'none';
 }
 
-
 function createCardHTML(p) {
-    let template = `
+    return `
     <div class="card">
         <img src="${p.image}" alt="${p.name}">
         <div class="card-name" id="product-description">${p.name}</div>
@@ -43,69 +48,69 @@ function createCardHTML(p) {
         <button class="button button-outline button-add" id="${p.id}" title="Clic para agregar al carrito">Agregar al Carrito</button>
         </div>
     </div>`;
-
-    return template;
 }
 
+function createCardElement(product) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.id = product.id;
 
-const activarClickEnBotones = () => {
-    const botones = document.querySelectorAll('button.button-outline.button-add')
+    const img = document.createElement('img');
+    img.src = product.image;
+    img.alt = product.name;
 
-    for (let boton of botones) {
-        boton.addEventListener('click', (event) => {
-            if (event.target == null) return
+    const cardName = document.createElement('div');
+    cardName.className = 'card-name';
+    cardName.textContent = product.name;
 
-            if ("id" in event.target) {
-                addToCart(event.target.id)
-            }
-        })
-    }
+    const cardDescription = document.createElement('div');
+    cardDescription.className = 'card-description';
+    cardDescription.textContent = product.description;
+
+    const cardPrice = document.createElement('div');
+    cardPrice.className = 'card-price';
+    cardPrice.textContent = `\$ ${thousandSep(product.price)}`;
+
+    const cardButton = createCardButton(product.id);
+
+    card.appendChild(img);
+    card.appendChild(cardName);
+    card.appendChild(cardDescription);
+    card.appendChild(cardPrice);
+    card.appendChild(cardButton);
+
+    return card;
 }
 
+function createCardButton(productID) {
+    const button = document.createElement('button');
+    button.className = 'button button-outline button-add';
+    button.id = productID;
+    button.title = 'Click para agregar al carrito';
+    button.textContent = 'Agregar al Carrito';
 
-function loadProducts(array) {
-    const container = document.querySelector('.container');
-    array.forEach(element => {
-        let card = document.createElement('div');
-        card.innerHTML = createCardHTML(element);
-
-        container.appendChild(card);
+    // Add a listener for each button.
+    button.addEventListener('click', (event) => {
+        const productID = parseInt(event.target.id);
+        addToCart(productID);
     });
-    activarClickEnBotones();
+
+    const cardButton = document.createElement('div');
+    cardButton.className = 'card-button';
+    cardButton.appendChild(button);
+
+    return cardButton;
 }
 
-const errorLoad = () => {
-    if (storeProducts.length === 0) {
-        // Muestra el mensaje de error
-        document.getElementById('errorCard').style.display = 'block';
-    }
+function displayProducts(products) {
+    cardContainer.innerHTML = '';
+
+    products.forEach(product => {
+        const card = createCardElement(product);
+        cardContainer.appendChild(card);
+    });
 }
-
-
-const obtenerProductos = () => {
-    fetch(URL_Productos)
-        .then((response) => response.json())
-        .then((data) => {
-            storeProducts.push(...data);
-            loadProducts(storeProducts);
-            errorLoad();
-        })
-        .catch((error)=>{
-            console.error(error);
-            errorLoad();
-        })
-    }
-
-obtenerProductos()
 
 document.getElementById('menu_responsive').addEventListener('click', function(){
     document.getElementById('menu-responsive').style.display = 'flex'
 })
-
-function mostrarAlertaSesion(){
-    alert('Has iniciado Sesion')
-}
-
-function mostrarAlertaRegister(){
-    alert('El usuario ah sido registrado')
-}
