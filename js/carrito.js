@@ -29,26 +29,37 @@ function clearCart() {
 
 // Agregar un producto al carrito.
 function addToCart(productID) {
-    if (productID <= 0) return;
+    productID = parseInt(productID)
 
-    const storeProduct = storeProducts.find((p) => p.id === parseInt(productID));
+    // Buscar el producto en la tienda.
+    const storeProduct = storeProducts.find((p) => p.id === productID);
 
-    // Verifica si el producto ya está en el carrito
-    const cartProduct = cartProducts.find((p) => p.id === storeProduct.id);
+    if (!storeProduct) {
+        console.error('Store Product not found: ' + productID)
+        return;
+    }
+
+    // Buscar el producto en el carrito.
+    const cartProduct = cartProducts.find((p) => p.id === productID);
 
     if (cartProduct) {
-        // Si ya está en el carrito, incrementa la cantidad
-        cartProduct.amount += 1;
+        // Si existe, incrementa la cantidad en 1.
+        cartProduct.cantidad++;
     } else {
-        // Si no está en el carrito, agrégalo con cantidad 1
+        // Si no existe, crea uno nuevo con cantidad en 1.
         storeProduct.amount = 1;
         cartProducts.push(storeProduct);
     }
 
+    // Guarda el carrito en el almacenamiento local.
     storeLocalCart();
+
+    // Mostrar notificacion
     showNotification();
+
+    // Actualiza la lista del carrito en el DOM.
     updateCartList();
-};
+}
 
 // Eliminar el producto del carrito.
 function removeFromCart(productID) {
@@ -106,8 +117,8 @@ function getCartTotal() {
     const subtotal = cartProducts.reduce((total, product) => total + (product.price * product.amount), 0);
 
     // Puedes agregar lógica para calcular descuentos y envío si es necesario
-    const discounts = 10;
-    const shipping = 500;
+    const discountAmount = 10;
+    const shippingCost = 500;
 
     let total;
 
@@ -116,83 +127,90 @@ function getCartTotal() {
         total = 0;
     } else {
         // Calcular total sumando subtotal, descuentos y envío
-        total = subtotal - discounts + shipping;
+        total = subtotal - discountAmount + shippingCost;
     }
 
     // Mostrar los resultados en el DOM
     subtotalElement.textContent = `$ ${subtotal.toFixed(2)}`;
-    discountsElement.textContent = `$ ${discounts.toFixed(2)}`;
-    shipmentElement.textContent = `$ ${shipping.toFixed(2)}`;
+    discountsElement.textContent = `$ ${discountAmount.toFixed(2)}`;
+    shipmentElement.textContent = `$ ${shippingCost.toFixed(2)}`;
     totalElement.textContent = `$ ${total.toFixed(2)}`;
 }
 
-
 function updateCartList() {
-    const carritoListContainer = document.querySelector('.carrito-list');
+    const cartListContainer = document.querySelector('.carrito-list');
 
     // Limpia la lista antes de agregar los elementos
-    carritoListContainer.innerHTML = '';
+    cartListContainer.innerHTML = '';
+
+    /* Más eficiente en el caso de que hayan muchos elementos.
+    // Eliminar todos los elementos secundarios del contenedor
+    while (cartListContainer.firstChild) {
+        cartListContainer.removeChild(cartListContainer.firstChild);
+    }
+    */
 
     // Agrega cada producto al contenedor
-    cartProducts.forEach((producto) => {
-        const productoItem = document.createElement('div');
-        productoItem.classList.add('carrito-item'); // Agrega una clase para aplicar estilos si es necesario
+    cartProducts.forEach(producto => {
+        const item = document.createElement('li');
+        item.classList.add('carrito-item');
 
-        // Crear elementos para mostrar el nombre, imagen, cantidad y precio
-        const nombreProducto = document.createElement('span');
-        nombreProducto.textContent = `${producto.nombre}`;
+        // Crear elementos para mostrar el nombre, imagen, precio y cantidad
 
-        const imagenProducto = document.createElement('img');
-        imagenProducto.src = producto.imagen;
-        imagenProducto.alt = producto.nombre;
+        const itemName = document.createElement('span');
+        itemName.textContent = producto.name;
 
-        const precioProducto = document.createElement('span');
-        precioProducto.textContent = `$ ${producto.precio.toFixed(2)}`;
+        const itemImg = document.createElement('img');
+        itemImg.src = producto.image;
+        itemImg.alt = producto.name;
 
-        const cantidadProducto = document.createElement('span');
-        cantidadProducto.textContent = `${producto.amount}`;
+        const itemPrice = document.createElement('span');
+        itemPrice.textContent = `$ ${producto.price.toFixed(2)}`;
 
-        // Agregar elementos al contenedor del producto
-        productoItem.appendChild(nombreProducto);
-        productoItem.appendChild(imagenProducto);
-        productoItem.appendChild(precioProducto);
+        const itemAmount = document.createElement('span');
+        itemAmount.textContent = producto.cantidad;
 
         // Botones para aumentar y disminuir la cantidad
-        const botonRestar = document.createElement('button');
-        botonRestar.textContent = '-';
-        botonRestar.addEventListener('click', () => decrementCartQuantity(producto.id));
-        productoItem.appendChild(botonRestar);
 
-        productoItem.appendChild(cantidadProducto);
+        const substractBtn = document.createElement('button');
+        substractBtn.textContent = '-';
+        substractBtn.addEventListener('click', () => decreaseCartQuantity(producto.id));
 
-        const botonSumar = document.createElement('button');
-        botonSumar.textContent = '+';
-        botonSumar.addEventListener('click', () => incrementCartQuantity(producto.id));
-        productoItem.appendChild(botonSumar);
+        const addBtn = document.createElement('button');
+        addBtn.textContent = '+';
+        addBtn.addEventListener('click', () => incrementCartQuantity(producto.id));
+
+        // Agregar elementos al contenedor del producto
+        item.appendChild(itemName);
+        item.appendChild(itemImg);
+        item.appendChild(itemPrice);
+        item.appendChild(substractBtn);
+        item.appendChild(itemAmount);
+        item.appendChild(addBtn);
 
         // Agregar el producto al contenedor de la lista del carrito
-        carritoListContainer.appendChild(productoItem);
+        cartListContainer.appendChild(item);
     });
+
     // Llamada a la función para calcular subtotal y total
     getCartTotal();
 }
 
-// Función para vaciar por completo el carrito
-document.querySelector('.vaciar-carrito').addEventListener('click', clearCart());
-
-function alertaPagos(){
-    alert('Gracias por tu Compra!!😎')
-    clearCart()
-}
-
 function showNotification() {
     // Muestra la notificación
-    notificacion.style.display = 'block';
+    notificationBox.style.display = 'block';
 
     // Oculta la notificación después de 3 segundos
     setTimeout(() => {
-        notificacion.style.display = 'none';
+        notificationBox.style.display = 'none';
     }, 3000); // 3000 milisegundos = 3 segundos
 }
 
-cartProducts = recoverLocalCart()
+function showPaymentAlert() {
+    // Muestra la notificación
+    paymentAlert.style.display = 'block';
+    clearCart();
+}
+
+// Función para vaciar por completo el carrito
+document.querySelector('.vaciar-carrito').addEventListener('click', clearCart());
