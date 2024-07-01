@@ -1,41 +1,25 @@
 // Almacenamos los productos en el localStorage
 const carritoID = 'almacenarEnCarrito'
 
-const almacenarCarrito = () => {
-    if (carritoProductos.length > 0) {
-        localStorage.setItem(carritoID, JSON.stringify(carritoProductos))
+let cartProducts = []
+
+function storeLocalCart() {
+    if (cartProducts.length > 0) {
+        localStorage.setItem(carritoID, JSON.stringify(cartProducts));
+    } else {
+        localStorage.removeItem(carritoID);
     }
 }
 
-const recuperarCarrito = () => {
-    const item = localStorage.getItem(carritoID) ?? "[]"
-    return JSON.parse(item) || [];
+function recoverLocalCart() {
+    return JSON.parse(localStorage.getItem(carritoID)) || [];
 }
 
-let carritoProductos = recuperarCarrito()
-
-//funcion para agregar un producto al carrito
-const agregarAlCarrito = (productoID) => {
-    if (productoID <= 0) return;
-
-    const resultado = productos.find((producto) => producto.id === parseInt(productoID));
-
-// Verifica si el producto ya está en el carrito
-const productoEnCarrito = carritoProductos.find((producto) => producto.id === resultado.id);
-
-if (productoEnCarrito) {
-    // Si ya está en el carrito, incrementa la cantidad
-    productoEnCarrito.cantidad += 1;
-} else {
-    // Si no está en el carrito, agrégalo con cantidad 1
-    resultado.cantidad = 1;
-    carritoProductos.push(resultado);
+function clearCart() {
+    cartProducts = []
+    storeLocalCart()
+    updateCartList()
 }
-
-    almacenarCarrito();
-    mostrarNotificacion();
-    actualizarListaCarrito();
-};
 
 const mostrarNotificacion = () => {
     const notificacion = document.getElementById('notificacion');
@@ -49,25 +33,48 @@ const mostrarNotificacion = () => {
     }, 3000); // 3000 milisegundos = 3 segundos
 }
 
-const quitarDelCarrito = (productoID) => {
+//funcion para agregar un producto al carrito
+function addToCart(productID) {
+    if (productID <= 0) return;
+
+    const resultado = productos.find((p) => p.id === parseInt(productID));
+
+    // Verifica si el producto ya está en el carrito
+    const productoEnCarrito = cartProducts.find((p) => p.id === resultado.id);
+
+    if (productoEnCarrito) {
+        // Si ya está en el carrito, incrementa la cantidad
+        productoEnCarrito.cantidad += 1;
+    } else {
+        // Si no está en el carrito, agrégalo con cantidad 1
+        resultado.cantidad = 1;
+        cartProducts.push(resultado);
+    }
+
+    storeLocalCart();
+    mostrarNotificacion();
+    updateCartList();
+};
+
+function removeFromCart(productID) {
     // Filtra los productos para excluir el que queremos quitar
-    carritoProductos = carritoProductos.filter((producto) => producto.id !== productoID);
+    cartProducts = cartProducts.filter((p) => p.id !== productID);
 
     // Guarda la actualización en localStorage
-    almacenarCarrito();
+    storeLocalCart();
 
     // Actualiza la lista del carrito en el DOM
-    actualizarListaCarrito();
+    updateCartList();
 }
 
-const actualizarListaCarrito = () => {
+function updateCartList() {
     const carritoListContainer = document.querySelector('.carrito-list');
 
     // Limpia la lista antes de agregar los elementos
     carritoListContainer.innerHTML = '';
 
     // Agrega cada producto al contenedor
-    carritoProductos.forEach((producto) => {
+    cartProducts.forEach((producto) => {
         const productoItem = document.createElement('div');
         productoItem.classList.add('carrito-item'); // Agrega una clase para aplicar estilos si es necesario
 
@@ -93,61 +100,61 @@ const actualizarListaCarrito = () => {
         // Botones para aumentar y disminuir la cantidad
         const botonRestar = document.createElement('button');
         botonRestar.textContent = '-';
-        botonRestar.addEventListener('click', () => restarCantidad(producto.id));
+        botonRestar.addEventListener('click', () => decrementCartQuantity(producto.id));
         productoItem.appendChild(botonRestar);
 
         productoItem.appendChild(cantidadProducto);
 
         const botonSumar = document.createElement('button');
         botonSumar.textContent = '+';
-        botonSumar.addEventListener('click', () => sumarCantidad(producto.id));
+        botonSumar.addEventListener('click', () => incrementCartQuantity(producto.id));
         productoItem.appendChild(botonSumar);
 
         // Agregar el producto al contenedor de la lista del carrito
         carritoListContainer.appendChild(productoItem);
     });
     // Llamada a la función para calcular subtotal y total
-    calcularTotal();
-};
+    getCartTotal();
+}
 
 // Función para aumentar la cantidad de un producto en el carrito
-const sumarCantidad = (productoID) => {
-    const productoEnCarrito = carritoProductos.find((producto) => producto.id === productoID);
+const incrementCartQuantity = (productID) => {
+    const productoEnCarrito = cartProducts.find((p) => p.id === productID);
 
     if (productoEnCarrito) {
         // Incrementa la cantidad
         productoEnCarrito.cantidad += 1;
 
         // Actualiza la lista del carrito en el DOM
-        actualizarListaCarrito();
+        updateCartList();
     }
 };
 
 // Función para disminuir la cantidad de un producto en el carrito
-const restarCantidad = (productoID) => {
-    const productoEnCarrito = carritoProductos.find((producto) => producto.id === productoID);
+const decrementCartQuantity = (productID) => {
+    const productoEnCarrito = cartProducts.find((p) => p.id === productID);
 
     if (productoEnCarrito.cantidad > 1) {
         // Disminuye la cantidad, asegurándose de que no sea menor a 1
         productoEnCarrito.cantidad -= 1;
     } else {
         // Si la cantidad es 1, elimina el producto del carrito
-        quitarDelCarrito(productoID);
+        removeFromCart(productID);
     }
 
         // Actualiza la lista del carrito en el DOM
-        actualizarListaCarrito();
+        updateCartList();
 };
 
 // Función para calcular el subtotal y total
-const calcularTotal = () => {
+const getCartTotal = () => {
     const subtotalElement = document.querySelector('.subtotal');
     const descuentosElement = document.querySelector('.descuentos');
     const envioElement = document.querySelector('.envio');
     const totalElement = document.querySelector('.total');
 
     // Calcular subtotal sumando los precios de todos los productos
-    const subtotal = carritoProductos.reduce((total, producto) => total + (producto.precio * producto.cantidad), 0);
+    const subtotal = cartProducts.reduce((total, producto) => total + (producto.precio * producto.cantidad), 0);
 
     // Puedes agregar lógica para calcular descuentos y envío si es necesario
     const descuentos = 10;
@@ -164,17 +171,11 @@ const calcularTotal = () => {
 };
 
 // Función para vaciar por completo el carrito
-document.querySelector('.vaciar-carrito').addEventListener('click', function () {
-    carritoProductos = [];
-
-    almacenarCarrito();
-
-    actualizarListaCarrito();
-});
+document.querySelector('.vaciar-carrito').addEventListener('click', clearCart());
 
 function alertaPagos(){
     alert('Gracias por tu Compra!!😎')
-    carritoProductos = [];
-    almacenarCarrito();
-    actualizarListaCarrito();
+    clearCart()
 }
+
+cartProducts = recoverLocalCart()
