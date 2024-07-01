@@ -1,0 +1,7 @@
+{
+    "port": 8082,
+    "accessToken": "TEST-2311629547680354-112817-8128103c9c858a63c3dc5b58dba35a3f-223221824",
+    "products": {
+        "path": "./data/products.json"
+    }
+}
