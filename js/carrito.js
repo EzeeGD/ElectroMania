@@ -37,18 +37,18 @@ const mostrarNotificacion = () => {
 function addToCart(productID) {
     if (productID <= 0) return;
 
-    const resultado = productos.find((p) => p.id === parseInt(productID));
+    const storeProduct = storeProducts.find((p) => p.id === parseInt(productID));
 
     // Verifica si el producto ya está en el carrito
-    const productoEnCarrito = cartProducts.find((p) => p.id === resultado.id);
+    const cartProduct = cartProducts.find((p) => p.id === storeProduct.id);
 
-    if (productoEnCarrito) {
+    if (cartProduct) {
         // Si ya está en el carrito, incrementa la cantidad
-        productoEnCarrito.cantidad += 1;
+        cartProduct.amount += 1;
     } else {
         // Si no está en el carrito, agrégalo con cantidad 1
-        resultado.cantidad = 1;
-        cartProducts.push(resultado);
+        storeProduct.amount = 1;
+        cartProducts.push(storeProduct);
     }
 
     storeLocalCart();
@@ -90,7 +90,7 @@ function updateCartList() {
         precioProducto.textContent = `$ ${producto.precio.toFixed(2)}`;
 
         const cantidadProducto = document.createElement('span');
-        cantidadProducto.textContent = `${producto.cantidad}`;
+        cantidadProducto.textContent = `${producto.amount}`;
 
         // Agregar elementos al contenedor del producto
         productoItem.appendChild(nombreProducto);
@@ -119,11 +119,11 @@ function updateCartList() {
 
 // Función para aumentar la cantidad de un producto en el carrito
 const incrementCartQuantity = (productID) => {
-    const productoEnCarrito = cartProducts.find((p) => p.id === productID);
+    const cartProduct = cartProducts.find((p) => p.id === productID);
 
-    if (productoEnCarrito) {
+    if (cartProduct) {
         // Incrementa la cantidad
-        productoEnCarrito.cantidad += 1;
+        cartProduct.amount += 1;
 
         // Actualiza la lista del carrito en el DOM
         updateCartList();
@@ -132,11 +132,11 @@ const incrementCartQuantity = (productID) => {
 
 // Función para disminuir la cantidad de un producto en el carrito
 const decrementCartQuantity = (productID) => {
-    const productoEnCarrito = cartProducts.find((p) => p.id === productID);
+    const cartProduct = cartProducts.find((p) => p.id === productID);
 
-    if (productoEnCarrito.cantidad > 1) {
+    if (cartProduct.amount > 1) {
         // Disminuye la cantidad, asegurándose de que no sea menor a 1
-        productoEnCarrito.cantidad -= 1;
+        cartProduct.amount -= 1;
     } else {
         // Si la cantidad es 1, elimina el producto del carrito
         removeFromCart(productID);
@@ -154,7 +154,7 @@ const getCartTotal = () => {
     const totalElement = document.querySelector('.total');
 
     // Calcular subtotal sumando los precios de todos los productos
-    const subtotal = cartProducts.reduce((total, producto) => total + (producto.precio * producto.cantidad), 0);
+    const subtotal = cartProducts.reduce((total, producto) => total + (producto.precio * producto.amount), 0);
 
     // Puedes agregar lógica para calcular descuentos y envío si es necesario
     const descuentos = 10;
