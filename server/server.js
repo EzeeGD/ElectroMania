@@ -20,8 +20,10 @@ const client = new MercadoPagoConfig({
 
 // * Middleware
 
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 app.use(express.static(path.join(__dirname, '../client')));
 app.use(cors());
 
@@ -37,7 +39,7 @@ app.get('/api/products', function(req, res) {
         const data = fs.readFileSync(PRODUCTS_PATH, 'utf8');
         const products = JSON.parse(data);
 
-        res.    json(products);
+        res.status(200).json(products);
     } catch (error) {
         console.error("Error obtaining products:", error);
         res.status(500).json({
@@ -46,6 +48,20 @@ app.get('/api/products', function(req, res) {
     }
 });
 
+app.get('/api/pay', function(req, res) {
+    const ids = req.body;
+    const productsCopy = products.map((p) => ({ ...p }));
+    ids.forEach((id) => {
+        const product = productsCopy.find((p) => p.id === id);
+        if (product.stock > 0) {
+            product.stock--;
+        } else {
+            throw "Sin stock";
+        }
+    });
+    products = productsCopy;
+    res.send(products);
+});
 
 app.get('/api/feedback', function(req, res) {
     res.json({
