@@ -147,7 +147,11 @@ function initializeCart() {
     updateCartList();
 }
 
-function showAlert() {
+function showRegisterAlert() {
+    alert("Test concluido!")
+}
+
+function showLoginAlert() {
     alert("Test concluido!")
 }
 

@@ -34,7 +34,7 @@
                                 <input name="user_input" type="text" placeholder="Usuario" autocomplete="username">
                                 <input name="password_input" type="password" placeholder="Contraseña" autocomplete="current-password">
                                 <div class="boton-sesion">
-                                    <button id="btn-login" type="submit">Iniciar Sesión</button>
+                                    <button id="btn-login" type="submit" onclick="showLoginAlert()">Iniciar Sesión</button>
                                 </div>
                             </form>
                         </div>
@@ -53,7 +53,7 @@
                                 <input name="surname" type="text" placeholder="Apellido">
                                 <input name="email" type="email" placeholder="Mail" autocomplete="email">
                                 <div class="boton-register">
-                                    <button id="btn-register" onclick="showAlert()">Registrarse</button>
+                                    <button id="btn-register" type="submit" onclick="showRegisterAlert()">Registrarse</button>
                                 </div>
                             </form>
                         </div>
@@ -100,7 +100,13 @@
                         <div id="info-content">
                             <span id="close-info" onclick="toggleInfo(false)">&#10006;</span>
                             <h4>Quienes somos?</h4>
-                            <h5>Somos una empresa líder en la industria de electrodomésticos a nivel mundial. Nuestra especialidad es brindar a nuestros clientes una amplia gama de productos de alta calidad a precios inigualables. Nos enorgullece ofrecer envíos a destinos en todo el mundo, lo que significa que puedes encontrar los productos que buscas sin importar dónde te encuentres. En lo que destacamos es en nuestra eficiencia y compromiso con nuestros clientes. Nos esforzamos al máximo para asegurar que tus pedidos sean entregados en el menor tiempo posible. Además, consideramos la lealtad y la satisfacción del cliente como nuestros valores fundamentales, y siempre trabajamos incansablemente para superar sus expectativas. Confía en nosotros para satisfacer tus necesidades de electrodomésticos, y experimenta la diferencia de elegir a una empresa dedicada a brindar productos de calidad, servicio excepcional y entrega rápida en todo el mundo. </h5>
+                            <h5>Somos una empresa líder en la industria de electrodomésticos a nivel mundial. 
+                                Nuestra especialidad es brindar a nuestros clientes una amplia gama de productos de alta calidad a precios inigualables. 
+                                Nos enorgullece ofrecer envíos a destinos en todo el mundo, lo que significa que puedes encontrar los productos que buscas sin importar dónde te encuentres. 
+                                En lo que destacamos es en nuestra eficiencia y compromiso con nuestros clientes. 
+                                Nos esforzamos al máximo para asegurar que tus pedidos sean entregados en el menor tiempo posible. 
+                                Además, consideramos la lealtad y la satisfacción del cliente como nuestros valores fundamentales, y siempre trabajamos incansablemente para superar sus expectativas. 
+                                Confía en nosotros para satisfacer tus necesidades de electrodomésticos, y experimenta la diferencia de elegir a una empresa dedicada a brindar productos de calidad, servicio excepcional y entrega rápida en todo el mundo. </h5>
                         </div>
                     </div>
                 </li>
