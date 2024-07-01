@@ -13,7 +13,7 @@ import { MercadoPagoConfig, Preference } from 'mercadopago';
 const PRODUCTS_PATH = './data/products.json';
 
 const app = express();
-const port = process.env.PORT || 8082;
+const PORT = process.env.PORT || 8082;
 const client = new MercadoPagoConfig({
     accessToken: 'TEST-2311629547680354-112817-8128103c9c858a63c3dc5b58dba35a3f-223221824'
 });
@@ -93,6 +93,6 @@ app.post("/api/create_preference", async (req, res) => {
     }
 });
 
-app.listen(port, () => {
-    console.log(`App is listening at http://localhost:${port}`);
+app.listen(PORT, () => {
+    logger.info(`Express Server started and listening in port ${PORT}`);
 });
