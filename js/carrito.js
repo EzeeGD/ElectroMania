@@ -1,7 +1,9 @@
-// Almacenamos los productos en el localStorage
-const carritoID = 'almacenarEnCarrito'
+const notificationBox = document.getElementById('notificacion');
 
-let cartProducts = []
+// Almacenamos los productos en el localStorage
+const carritoID = 'almacenarEnCarrito';
+
+let cartProducts = [];
 
 function storeLocalCart() {
     if (cartProducts.length > 0) {
@@ -15,15 +17,17 @@ function recoverLocalCart() {
     return JSON.parse(localStorage.getItem(carritoID)) || [];
 }
 
+function loadCart() {
+    cartProducts = recoverLocalCart();
+}
+
 function clearCart() {
     cartProducts = []
     storeLocalCart()
     updateCartList()
 }
 
-const mostrarNotificacion = () => {
-    const notificacion = document.getElementById('notificacion');
-
+function showNotification() {
     // Muestra la notificación
     notificacion.style.display = 'block';
 
@@ -52,7 +56,7 @@ function addToCart(productID) {
     }
 
     storeLocalCart();
-    mostrarNotificacion();
+    showNotification();
     updateCartList();
 };
 
@@ -66,6 +70,60 @@ function removeFromCart(productID) {
     // Actualiza la lista del carrito en el DOM
     updateCartList();
 }
+
+// Función para aumentar la cantidad de un producto en el carrito
+function incrementCartQuantity(productID) {
+    const cartProduct = cartProducts.find((p) => p.id === productID);
+
+    if (cartProduct) {
+        // Incrementa la cantidad
+        cartProduct.amount += 1;
+
+        // Actualiza la lista del carrito en el DOM
+        updateCartList();
+    }
+};
+
+// Función para disminuir la cantidad de un producto en el carrito
+function decrementCartQuantity(productID) {
+    const cartProduct = cartProducts.find((p) => p.id === productID);
+
+    if (cartProduct.amount > 1) {
+        // Disminuye la cantidad, asegurándose de que no sea menor a 1
+        cartProduct.amount -= 1;
+    } else {
+        // Si la cantidad es 1, elimina el producto del carrito
+        removeFromCart(productID);
+    }
+
+    // Actualiza la lista del carrito en el DOM
+    updateCartList();
+};
+
+// Función para calcular el subtotal y total
+const getCartTotal = () => {
+    const subtotalElement = document.querySelector('.subtotal');
+    const descuentosElement = document.querySelector('.descuentos');
+    const envioElement = document.querySelector('.envio');
+    const totalElement = document.querySelector('.total');
+
+    // Calcular subtotal sumando los precios de todos los productos
+    const subtotal = cartProducts.reduce((total, producto) => total + (producto.precio * producto.amount), 0);
+
+    // Puedes agregar lógica para calcular descuentos y envío si es necesario
+    const descuentos = 10;
+    const envio = 500;
+
+    // Calcular total sumando subtotal, descuentos y envío
+    const total = subtotal - descuentos + envio;
+
+    // Mostrar los resultados en el DOM
+    subtotalElement.textContent = `$ ${subtotal.toFixed(2)}`;
+    descuentosElement.textContent = `$ ${descuentos.toFixed(2)}`;
+    envioElement.textContent = `$ ${envio.toFixed(2)}`;
+    totalElement.textContent = `$ ${total.toFixed(2)}`;
+};
+
 
 function updateCartList() {
     const carritoListContainer = document.querySelector('.carrito-list');
@@ -116,59 +174,6 @@ function updateCartList() {
     // Llamada a la función para calcular subtotal y total
     getCartTotal();
 }
-
-// Función para aumentar la cantidad de un producto en el carrito
-const incrementCartQuantity = (productID) => {
-    const cartProduct = cartProducts.find((p) => p.id === productID);
-
-    if (cartProduct) {
-        // Incrementa la cantidad
-        cartProduct.amount += 1;
-
-        // Actualiza la lista del carrito en el DOM
-        updateCartList();
-    }
-};
-
-// Función para disminuir la cantidad de un producto en el carrito
-const decrementCartQuantity = (productID) => {
-    const cartProduct = cartProducts.find((p) => p.id === productID);
-
-    if (cartProduct.amount > 1) {
-        // Disminuye la cantidad, asegurándose de que no sea menor a 1
-        cartProduct.amount -= 1;
-    } else {
-        // Si la cantidad es 1, elimina el producto del carrito
-        removeFromCart(productID);
-    }
-
-        // Actualiza la lista del carrito en el DOM
-        updateCartList();
-};
-
-// Función para calcular el subtotal y total
-const getCartTotal = () => {
-    const subtotalElement = document.querySelector('.subtotal');
-    const descuentosElement = document.querySelector('.descuentos');
-    const envioElement = document.querySelector('.envio');
-    const totalElement = document.querySelector('.total');
-
-    // Calcular subtotal sumando los precios de todos los productos
-    const subtotal = cartProducts.reduce((total, producto) => total + (producto.precio * producto.amount), 0);
-
-    // Puedes agregar lógica para calcular descuentos y envío si es necesario
-    const descuentos = 10;
-    const envio = 500;
-
-    // Calcular total sumando subtotal, descuentos y envío
-    const total = subtotal - descuentos + envio;
-
-    // Mostrar los resultados en el DOM
-    subtotalElement.textContent = `$ ${subtotal.toFixed(2)}`;
-    descuentosElement.textContent = `$ ${descuentos.toFixed(2)}`;
-    envioElement.textContent = `$ ${envio.toFixed(2)}`;
-    totalElement.textContent = `$ ${total.toFixed(2)}`;
-};
 
 // Función para vaciar por completo el carrito
 document.querySelector('.vaciar-carrito').addEventListener('click', clearCart());
