@@ -27,17 +27,7 @@ function clearCart() {
     updateCartList()
 }
 
-function showNotification() {
-    // Muestra la notificación
-    notificacion.style.display = 'block';
-
-    // Oculta la notificación después de 3 segundos
-    setTimeout(() => {
-        notificacion.style.display = 'none';
-    }, 3000); // 3000 milisegundos = 3 segundos
-}
-
-//funcion para agregar un producto al carrito
+// Agregar un producto al carrito.
 function addToCart(productID) {
     if (productID <= 0) return;
 
@@ -60,69 +50,81 @@ function addToCart(productID) {
     updateCartList();
 };
 
+// Eliminar el producto del carrito.
 function removeFromCart(productID) {
-    // Filtra los productos para excluir el que queremos quitar
-    cartProducts = cartProducts.filter((p) => p.id !== productID);
+    // Filtra los productos del carrito, eliminando el producto con el ID especificado.
+    cartProducts = cartProducts.filter((p) => p.id !== parseInt(productID));
 
-    // Guarda la actualización en localStorage
+    // Guarda el carrito en el almacenamiento local.
     storeLocalCart();
 
-    // Actualiza la lista del carrito en el DOM
+    // Actualiza la lista del carrito en el DOM.
     updateCartList();
 }
 
-// Función para aumentar la cantidad de un producto en el carrito
+// Aumentar cantidad de un producto en el carrito.
 function incrementCartQuantity(productID) {
-    const cartProduct = cartProducts.find((p) => p.id === productID);
+    // Encuentra el producto en el carrito.
+    const cartProduct = cartProducts.find((p) => p.id === parseInt(productID));
 
     if (cartProduct) {
         // Incrementa la cantidad
-        cartProduct.amount += 1;
+        cartProduct.amount++;
 
         // Actualiza la lista del carrito en el DOM
         updateCartList();
     }
 };
 
-// Función para disminuir la cantidad de un producto en el carrito
-function decrementCartQuantity(productID) {
-    const cartProduct = cartProducts.find((p) => p.id === productID);
+// Disminuir la cantidad de un producto en el carrito.
+function decreaseCartQuantity(productID) {
+    // Encuentra el producto en el carrito.
+    const cartProduct = cartProducts.find((p) => p.id === parseInt(productID));
 
-    if (cartProduct.amount > 1) {
-        // Disminuye la cantidad, asegurándose de que no sea menor a 1
+    if (cartProduct) {
+        // Disminuye la cantidad
         cartProduct.amount -= 1;
-    } else {
-        // Si la cantidad es 1, elimina el producto del carrito
-        removeFromCart(productID);
-    }
 
-    // Actualiza la lista del carrito en el DOM
-    updateCartList();
+        if (cartProduct.amount < 1) {
+            // Si la cantidad es menor a 1, elimina el producto del carrito
+            removeFromCart(productID);
+        }
+
+        // Actualiza la lista del carrito en el DOM
+        updateCartList();
+    }
 };
 
-// Función para calcular el subtotal y total
-const getCartTotal = () => {
+// Calcular el precio total y subtotal.
+function getCartTotal() {
     const subtotalElement = document.querySelector('.subtotal');
-    const descuentosElement = document.querySelector('.descuentos');
-    const envioElement = document.querySelector('.envio');
+    const discountsElement = document.querySelector('.descuentos');
+    const shipmentElement = document.querySelector('.envio');
     const totalElement = document.querySelector('.total');
 
     // Calcular subtotal sumando los precios de todos los productos
-    const subtotal = cartProducts.reduce((total, producto) => total + (producto.precio * producto.amount), 0);
+    const subtotal = cartProducts.reduce((total, product) => total + (product.price * product.amount), 0);
 
     // Puedes agregar lógica para calcular descuentos y envío si es necesario
-    const descuentos = 10;
-    const envio = 500;
+    const discounts = 10;
+    const shipping = 500;
 
-    // Calcular total sumando subtotal, descuentos y envío
-    const total = subtotal - descuentos + envio;
+    let total;
+
+    // If subtotal is 0, set total to 0
+    if (subtotal === 0) {
+        total = 0;
+    } else {
+        // Calcular total sumando subtotal, descuentos y envío
+        total = subtotal - discounts + shipping;
+    }
 
     // Mostrar los resultados en el DOM
     subtotalElement.textContent = `$ ${subtotal.toFixed(2)}`;
-    descuentosElement.textContent = `$ ${descuentos.toFixed(2)}`;
-    envioElement.textContent = `$ ${envio.toFixed(2)}`;
+    discountsElement.textContent = `$ ${discounts.toFixed(2)}`;
+    shipmentElement.textContent = `$ ${shipping.toFixed(2)}`;
     totalElement.textContent = `$ ${total.toFixed(2)}`;
-};
+}
 
 
 function updateCartList() {
@@ -181,6 +183,16 @@ document.querySelector('.vaciar-carrito').addEventListener('click', clearCart())
 function alertaPagos(){
     alert('Gracias por tu Compra!!😎')
     clearCart()
+}
+
+function showNotification() {
+    // Muestra la notificación
+    notificacion.style.display = 'block';
+
+    // Oculta la notificación después de 3 segundos
+    setTimeout(() => {
+        notificacion.style.display = 'none';
+    }, 3000); // 3000 milisegundos = 3 segundos
 }
 
 cartProducts = recoverLocalCart()
