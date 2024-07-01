@@ -1,16 +1,16 @@
 const cardContainer = document.getElementById("cardContainer")
-const URL_Productos = '/js/productos.json'
-const productos = []
+const URL_Productos = './js/products.json'
+const storeProducts = []
 
-function createCardHTML(producto) {
+function createCardHTML(p) {
     let template = `
     <div class="card">
-        <img src="${producto.imagen}" alt="${producto.nombre}">
-        <div class="card-name" id="product-description">${producto.nombre}</div>
-        <div class="card-description">${producto.descripcion}</div>
-        <div class="card-price" id="unit-price">\$ ${producto.precio}</div>
+        <img src="${p.image}" alt="${p.name}">
+        <div class="card-name" id="product-description">${p.name}</div>
+        <div class="card-description">${p.description}</div>
+        <div class="card-price" id="unit-price">\$ ${p.price}</div>
         <div class="card-button">
-        <button class="button button-outline button-add" id="${producto.id}" title="Clic para agregar al carrito">Agregar al Carrito</button>
+        <button class="button button-outline button-add" id="${p.id}" title="Clic para agregar al carrito">Agregar al Carrito</button>
         </div>
     </div>`;
 
@@ -26,7 +26,7 @@ const activarClickEnBotones = () => {
             if (event.target == null) return
 
             if ("id" in event.target) {
-                agregarAlCarrito(event.target.id)
+                addToCart(event.target.id)
             }
         })
     }
@@ -45,7 +45,7 @@ function loadProducts(array) {
 }
 
 const errorLoad = () => {
-    if (productos.length === 0) {
+    if (storeProducts.length === 0) {
         // Muestra el mensaje de error
         document.getElementById('errorCard').style.display = 'block';
     }
@@ -56,8 +56,8 @@ const obtenerProductos = () => {
     fetch(URL_Productos)
         .then((response) => response.json())
         .then((data) => {
-            productos.push(...data);
-            loadProducts(productos);
+            storeProducts.push(...data);
+            loadProducts(storeProducts);
             errorLoad();
         })
         .catch((error)=>{
@@ -68,7 +68,6 @@ const obtenerProductos = () => {
 
 obtenerProductos()
 
-
 // Función para abrir la ventana emergente de sesion
 document.getElementById('open-sesion').addEventListener('click', function() {
     document.getElementById('sesion').style.display = 'block';
@@ -76,23 +75,6 @@ document.getElementById('open-sesion').addEventListener('click', function() {
 
 function closeSesion() {
     document.getElementById('sesion').style.display = 'none';
-}
-
-function mostrarAlertaSesion(){
-    alert('Has iniciado Sesion')
-}
-
-// Funcion para abrir registro
-
-document.getElementById('open-register').addEventListener('click', function(){
-    document.getElementById('register').style.display = 'block'
-})
-
-function closeRegister() {
-    document.getElementById('register').style.display = 'none';
-}
-function mostrarAlertaRegister(){
-    alert('El usuario ah sido registrado')
 }
 
 // Funcion para abrir ventana emergente de info
@@ -105,7 +87,6 @@ function closeInfo() {
 }
 
 // Funcion para abrir carrito
-
 document.getElementById('open-carrito').addEventListener('click', function() {
     document.getElementById('carrito').style.display = 'flex';
 })
@@ -114,6 +95,24 @@ function closeCarrito() {
     document.getElementById('carrito').style.display = 'none';
 }
 
+// Funcion para abrir registro
+document.getElementById('open-register').addEventListener('click', function(){
+    document.getElementById('register').style.display = 'block'
+})
+
+function closeRegister() {
+    document.getElementById('register').style.display = 'none';
+}
+
+
 document.getElementById('menu_responsive').addEventListener('click', function(){
     document.getElementById('menu-responsive').style.display = 'flex'
 })
+
+function mostrarAlertaSesion(){
+    alert('Has iniciado Sesion')
+}
+
+function mostrarAlertaRegister(){
+    alert('El usuario ah sido registrado')
+}
