@@ -23,16 +23,13 @@ const client = new MercadoPagoConfig({
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-app.use(express.static(path.join(__dirname, '../client')));
 app.use(cors());
 
 // * Routes
 
-app.get("/", function(req, res) {
-    const filePath = path.resolve(__dirname, '..', 'client', 'index.html');
-    res.sendFile(filePath);
-});
+//app.use(express.static(path.join('../client')));
+app.use("/", express.static("../client"));
+
 
 app.get('/api/products', function(req, res) {
     try {
@@ -94,5 +91,5 @@ app.post("/api/create_preference", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-    logger.info(`Express Server started and listening in port ${PORT}`);
+    console.info(`Express Server started and listening in port ${PORT}`);
 });
