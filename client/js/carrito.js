@@ -1,5 +1,3 @@
-const notificationBox = document.getElementById('notificacion');
-
 // Almacenamos los productos en el localStorage
 const carritoID = 'almacenarEnCarrito';
 
@@ -143,13 +141,6 @@ function updateCartList() {
     // Limpia la lista antes de agregar los elementos
     cartListContainer.innerHTML = '';
 
-    /* Más eficiente en el caso de que hayan muchos elementos.
-    // Eliminar todos los elementos secundarios del contenedor
-    while (cartListContainer.firstChild) {
-        cartListContainer.removeChild(cartListContainer.firstChild);
-    }
-    */
-
     // Agrega cada producto al contenedor
     cartProducts.forEach(producto => {
         const item = document.createElement('li');
@@ -197,6 +188,7 @@ function updateCartList() {
 }
 
 function showNotification() {
+    const notificationBox = document.getElementById('notificacion');
     // Muestra la notificación
     notificationBox.style.display = 'block';
 
