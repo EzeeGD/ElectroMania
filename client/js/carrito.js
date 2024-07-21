@@ -25,12 +25,20 @@ function clearCart() {
     updateCartList()
 }
 
+function getCartProduct(productID) {
+    return cartProducts.find((p) => p.id === productID);
+}
+
+function getStoreProduct(productID) {
+    return storeProducts.find((p) => p.id === productID);
+}
+
 // Agregar un producto al carrito.
 function addToCart(productID) {
     productID = parseInt(productID)
 
     // Buscar el producto en la tienda.
-    const storeProduct = storeProducts.find((p) => p.id === productID);
+    const storeProduct = getStoreProduct(productID);
 
     if (!storeProduct) {
         console.error('Store Product not found: ' + productID)
@@ -38,7 +46,7 @@ function addToCart(productID) {
     }
 
     // Buscar el producto en el carrito.
-    const cartProduct = cartProducts.find((p) => p.id === productID);
+    const cartProduct = getCartProduct(productID);
 
     if (cartProduct) {
         // Si existe, incrementa la cantidad en 1.
@@ -74,7 +82,7 @@ function removeFromCart(productID) {
 // Aumentar cantidad de un producto en el carrito.
 function incrementCartQuantity(productID) {
     // Encuentra el producto en el carrito.
-    const cartProduct = cartProducts.find((p) => p.id === parseInt(productID));
+    const cartProduct = getCartProduct(productID);
 
     if (cartProduct) {
         // Incrementa la cantidad
@@ -88,7 +96,7 @@ function incrementCartQuantity(productID) {
 // Disminuir la cantidad de un producto en el carrito.
 function decreaseCartQuantity(productID) {
     // Encuentra el producto en el carrito.
-    const cartProduct = cartProducts.find((p) => p.id === parseInt(productID));
+    const cartProduct = getCartProduct(productID);
 
     if (cartProduct) {
         // Disminuye la cantidad
