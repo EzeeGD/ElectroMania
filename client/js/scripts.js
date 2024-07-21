@@ -7,9 +7,6 @@ document.getElementById("checkout-btn").addEventListener("click", function () {
 
   $('#checkout-btn').attr("disabled", true);
 
-  cartProducts = recuperarCarrito();
-
-
   const orderData = {
     items: cartProducts.map(product => ({
       id: product.id,
