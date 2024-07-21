@@ -7,15 +7,15 @@ document.getElementById("checkout-btn").addEventListener("click", function () {
 
   $('#checkout-btn').attr("disabled", true);
 
-  carritoProductos = recuperarCarrito();
+  cartProducts = recuperarCarrito();
 
 
   const orderData = {
-    items: carritoProductos.map(producto => ({
-      id: producto.id,
-      title: producto.name,
-      unit_price: producto.price,
-      quantity: producto.cantidad
+    items: cartProducts.map(product => ({
+      id: product.id,
+      title: product.name,
+      unit_price: product.price,
+      quantity: product.amount
     }))
   };
 
