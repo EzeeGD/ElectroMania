@@ -50,7 +50,7 @@ function addToCart(productID) {
 
     if (cartProduct) {
         // Si existe, incrementa la cantidad en 1.
-        cartProduct.cantidad++;
+        cartProduct.amount++;
     } else {
         // Si no existe, crea uno nuevo con cantidad en 1.
         storeProduct.amount = 1;
@@ -167,7 +167,7 @@ function updateCartList() {
         itemPrice.textContent = `$ ${producto.price.toFixed(2)}`;
 
         const itemAmount = document.createElement('span');
-        itemAmount.textContent = producto.cantidad;
+        itemAmount.textContent = producto.amount;
 
         // Botones para aumentar y disminuir la cantidad
 

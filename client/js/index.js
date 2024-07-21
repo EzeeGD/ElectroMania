@@ -85,7 +85,7 @@ function createCardButton(product) {
     const button = document.createElement('button');
     button.id = product.id;
     button.className = 'button button-outline button-add';
-    if (product.stock < 0) {
+    if (product.stock > 0) {
         button.title = 'Click para agregar al carrito.';
         button.textContent = 'Agregar';
 
