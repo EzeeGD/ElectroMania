@@ -2,12 +2,6 @@ let storeProducts = [];
 
 const cardContainer = document.getElementById("cardContainer");
 
-const errorCard = document.getElementById('errorCard');
-const session = document.getElementById('sesion');
-const info = document.getElementById('info');
-const carrito = document.getElementById('carrito');
-const register = document.getElementById('register');
-
 // ! Event listeners
 document.getElementById('open-sesion').addEventListener('click', () => toggleSession(true));
 document.getElementById('close-sesion').addEventListener('click', () => toggleCarrito(false));
@@ -19,43 +13,40 @@ document.getElementById('open-carrito').addEventListener('click', () => toggleCa
 document.getElementById('close-carrito').addEventListener('click', () => toggleCarrito(false));
 
 document.getElementById('open-register').addEventListener('click', () => toggleRegister(true));
-document.getElementById('close-register').addEventListener('click', () => toggleRegister(false));
+document.getElementById('close-register').addEventListener('click', (event) => toggleRegister(false));
+
+
+function toggleVisibility(event, state) {
+    event.target.style.display = state ? 'block' : 'none';
+}
 
 function toggleSession(state) {
+    const session = document.getElementById('sesion');
     session.style.display = state ? 'block' : 'none';
 }
 
 function toggleInfo(state) {
+    const info = document.getElementById('info');
     info.style.display = state ? 'block' : 'none';
 }
 
 function toggleCarrito(state) {
+    const carrito = document.getElementById('carrito');
     carrito.style.display = state ? 'block' : 'none';
 }
 
 function toggleRegister(state) {
+    const register = document.getElementById('register');
     register.style.display = state ? 'block' : 'none';
 }
 
 function toggleErrorCard(state) {
+    const errorCard = document.getElementById('errorCard');
     errorCard.style.display = state ? 'block' : 'none';
 }
 
 function thousandSep(x) {
     return x.toString().replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-}
-
-function createCardHTML(p) {
-    return `
-    <div class="card">
-        <img src="${p.image}" alt="${p.name}">
-        <div class="card-name" id="product-description">${p.name}</div>
-        <div class="card-description">${p.description}</div>
-        <div class="card-price" id="unit-price">\$ ${p.price}</div>
-        <div class="card-button">
-        <button class="button button-outline button-add" id="${p.id}" title="Clic para agregar al carrito">Agregar al Carrito</button>
-        </div>
-    </div>`;
 }
 
 function createCardElement(product) {
@@ -79,7 +70,7 @@ function createCardElement(product) {
     cardPrice.className = 'card-price';
     cardPrice.textContent = `\$ ${thousandSep(product.price)}`;
 
-    const cardButton = createCardButton(product.id);
+    const cardButton = createCardButton(product);
 
     card.appendChild(img);
     card.appendChild(cardName);
@@ -90,18 +81,23 @@ function createCardElement(product) {
     return card;
 }
 
-function createCardButton(productID) {
+function createCardButton(product) {
     const button = document.createElement('button');
+    button.id = product.id;
     button.className = 'button button-outline button-add';
-    button.id = productID;
-    button.title = 'Click para agregar al carrito';
-    button.textContent = 'Agregar al Carrito';
+    if (product.stock < 0) {
+        button.title = 'Click para agregar al carrito.';
+        button.textContent = 'Agregar';
 
-    // Add a listener for each button.
-    button.addEventListener('click', (event) => {
-        const productID = parseInt(event.target.id);
-        addToCart(productID);
-    });
+        button.addEventListener('click', (event) => {
+            addToCart(event.target.id);
+        });
+    } else {
+        button.classList.add('disabled');
+        button.title = 'No tenemos stock en este momento.';
+        button.textContent = 'Sin Stock';
+    }
+
 
     const cardButton = document.createElement('div');
     cardButton.className = 'card-button';
@@ -122,7 +118,7 @@ function displayProducts(products) {
 // Load products from server
 async function loadProducts() {
     try {
-        const response = await fetch("/api/products");
+        const response = await fetch('/api/products');
         storeProducts = await response.json();
         if (!storeProducts.length) {
             toggleErrorCard(true);
@@ -136,9 +132,9 @@ async function loadProducts() {
     }
 }
 
-document.getElementById('menu_responsive').addEventListener('click', function(){
-    document.getElementById('menu-responsive').style.display = 'flex'
-})
+//document.getElementById('menu-responsive').addEventListener('click', function() {
+//    document.getElementById('menu-responsive').style.display = 'flex'
+//})
 
 // Function to initialize the cart
 function initializeCart() {
@@ -155,5 +151,7 @@ function showLoginAlert() {
     alert("Test concluido!")
 }
 
-// Initialize cart on DOMContentLoaded
-document.addEventListener('DOMContentLoaded', initializeCart);
+// Initialize cart on web page load
+window.onload = function(){
+    initializeCart();
+};
