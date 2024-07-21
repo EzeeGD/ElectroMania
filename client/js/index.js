@@ -16,32 +16,33 @@ document.getElementById('open-register').addEventListener('click', () => toggleR
 document.getElementById('close-register').addEventListener('click', (event) => toggleRegister(false));
 
 
+const session = document.getElementById('sesion');
+const info = document.getElementById('info');
+const carrito = document.getElementById('carrito');
+const register = document.getElementById('register');
+const errorCard = document.getElementById('errorCard');
+
 function toggleVisibility(event, state) {
     event.target.style.display = state ? 'block' : 'none';
 }
 
 function toggleSession(state) {
-    const session = document.getElementById('sesion');
     session.style.display = state ? 'block' : 'none';
 }
 
 function toggleInfo(state) {
-    const info = document.getElementById('info');
     info.style.display = state ? 'block' : 'none';
 }
 
 function toggleCarrito(state) {
-    const carrito = document.getElementById('carrito');
     carrito.style.display = state ? 'block' : 'none';
 }
 
 function toggleRegister(state) {
-    const register = document.getElementById('register');
     register.style.display = state ? 'block' : 'none';
 }
 
 function toggleErrorCard(state) {
-    const errorCard = document.getElementById('errorCard');
     errorCard.style.display = state ? 'block' : 'none';
 }
 
