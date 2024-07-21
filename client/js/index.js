@@ -13,7 +13,7 @@ document.getElementById('open-carrito').addEventListener('click', () => toggleCa
 document.getElementById('close-carrito').addEventListener('click', () => toggleCarrito(false));
 
 document.getElementById('open-register').addEventListener('click', () => toggleRegister(true));
-document.getElementById('close-register').addEventListener('click', (event) => toggleRegister(false));
+document.getElementById('close-register').addEventListener('click', () => toggleRegister(false));
 
 
 const session = document.getElementById('sesion');
