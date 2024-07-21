@@ -1,18 +1,18 @@
 // Almacenamos los productos en el localStorage
-const carritoID = 'almacenarEnCarrito';
+const localCartID = 'almacenarEnCarrito';
 
 let cartProducts = [];
 
 function storeLocalCart() {
     if (cartProducts.length > 0) {
-        localStorage.setItem(carritoID, JSON.stringify(cartProducts));
+        localStorage.setItem(localCartID, JSON.stringify(cartProducts));
     } else {
-        localStorage.removeItem(carritoID);
+        localStorage.removeItem(localCartID);
     }
 }
 
 function recoverLocalCart() {
-    return JSON.parse(localStorage.getItem(carritoID)) || [];
+    return JSON.parse(localStorage.getItem(localCartID)) || [];
 }
 
 function loadCart() {
